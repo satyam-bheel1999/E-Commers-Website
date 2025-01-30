@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
-function ProductList() {
+function Home() {
 
     const [search, setSearch] = useState('')
 
@@ -65,4 +65,4 @@ function ProductList() {
   )
 }
 
-export default ProductList
+export default Home
