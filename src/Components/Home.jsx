@@ -7,6 +7,15 @@ function Home() {
 
     const [products, setProducts] = useState([]);
 
+    const [cart, setCart] = useState([]);
+
+    const handleCart = (productId) =>{
+
+        
+
+    }
+
+
     useEffect( () =>{
         const fetchData = async() =>{
 
@@ -37,19 +46,21 @@ function Home() {
         <input type='text' value={search} onChange={() => setSearch(e.target.value)} placeholder='search product'></input>
 
         </div>
-        <ul className='grid grid-cols-5 gap-1'>
+        <ul className='grid grid-cols-5 gap-3'>
             {
                 products.map( product => (
     
-                    <li key={product.id}>
-                        <img src={product.image} alt={product.title} className='w-52 h-52' />
-                        <div>
+                    <li key={product.id} className='h-72 w-96 flex flex-col justify-center items-center
+                    transition-transform duration-100 ease-in-out hover:translate-y-2'>
+                        <img src={product.image} alt={product.title} className='w-32 h-32' />
+                        <div className='flex flex-col justify-center items-center'>
 
                             <h3>{product.title}</h3>
                             <p>${product.price}</p>
 
 
                         </div>
+                        <button className='h-11 w-24 border border-emerald-600 font-semibold hover:bg-emerald-600 ' onClick={handleCart(product.id)}>Add to Cart</button>
                             
                     </li>
                 ))
