@@ -1,7 +1,6 @@
 import React from "react";
 
 function MyCart({ cart }) {
-  console.log(cart);
 
   return (
     <div>

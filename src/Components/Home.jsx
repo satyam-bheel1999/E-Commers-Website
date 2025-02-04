@@ -9,6 +9,8 @@ function Home({handleCart}) {
 
     const [filteredProducts, setFilteredProducts] = useState([]);
 
+    const [quantity, setQuantity] = useState({});
+
     // const handleCart = (productId) => {
 
     //     let findProduct = products.find(product => {product.id === productId});
@@ -28,8 +30,6 @@ function Home({handleCart}) {
                 let productResponse = await axios.get('https://fakestoreapi.com/products');
                 setProducts(productResponse.data);
 
-                console.log(products);
-
             } catch (erro) {
                 console.log("error")
             }
@@ -46,6 +46,26 @@ function Home({handleCart}) {
         );
         setFilteredProducts(filtered);
     };
+
+    const handleIncreament = (id) =>{
+
+        setQuantity( (prev) => (
+            {...prev,
+                [id] : (prev[id] || 0) + 1,
+            }
+        ))
+
+    }
+
+    const handleDecreament = (id) =>{
+
+        setQuantity( (prev) =>(
+            {
+                ...prev,
+                [id] : prev[id] > 0 ? prev[id] - 1 : 0,
+            }
+        ))
+    }
 
 
 
@@ -69,7 +89,7 @@ function Home({handleCart}) {
 
             {/*display the products and searched product on screen */}
             <div>
-                <ul className='grid grid-cols-5 gap-3'>
+                <ul className='grid grid-cols-4 gap-2'>
 
                     {
                         filteredProducts.length > 0 ? (
@@ -85,7 +105,7 @@ function Home({handleCart}) {
 
                                     </div>
                                     <button className='h-11 w-24 border border-emerald-600 font-semibold
-                                     hover:bg-emerald-600 cursor-pointer' onClick={handleCart(product)}>Add to Cart</button>
+                                     hover:bg-emerald-600 cursor-pointer' onClick={() => handleCart(product)}>Add to Cart</button>
 
                                 </li>
                             ))
@@ -103,8 +123,29 @@ function Home({handleCart}) {
 
 
                                     </div>
-                                    <button className='h-11 w-24 border border-emerald-600 font-semibold
-                                     hover:bg-emerald-600 cursor-pointer' onClick={handleCart(product)}>Add to Cart</button>
+
+                                    <div className='flex flex-row'>
+
+                                        <button className='h-11 w-24 border border-emerald-600 font-semibold
+                                         hover:bg-emerald-600 cursor-pointer' onClick={() => handleCart(product)}>Add to Cart</button>
+
+                                         <div className='flex flex-row h-11 w-20 border border-emerald-600 font-semibold
+                                        cursor-pointer justify-center items-center ml-3'>
+
+                                            
+                                            <button onClick={() => handleIncreament(product.id)}
+                                                className='m-3 cursor-pointer'>+</button>
+
+                                            <p>{quantity[product.id] || 0}</p>
+
+                                            <button onClick={() => handleDecreament(product.id)}
+                                                className='m-3 cursor-pointer'>-</button>
+
+                                         </div>
+
+
+                                    </div>
+                                    
 
                                 </li>
                             ))
