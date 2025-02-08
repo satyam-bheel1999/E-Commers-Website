@@ -1,6 +1,6 @@
 import React from "react";
 
-function MyCart({ cart }) {
+function MyCart({cart, productQuantity}) {
 
   return (
     <div>
@@ -15,6 +15,7 @@ transition-transform duration-100 ease-in-out hover:translate-y-2"
           <div className="flex flex-col justify-center items-center">
             <h3>{product.title}</h3>
             <p>${product.price}</p>
+            <p>Quantity: {productQuantity[product.id]}</p>
           </div>
         </li>
         ))
