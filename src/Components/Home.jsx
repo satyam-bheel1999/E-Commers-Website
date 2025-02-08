@@ -9,7 +9,7 @@ function Home({handleCart}) {
 
     const [filteredProducts, setFilteredProducts] = useState([]);
 
-    const [quantity, setQuantity] = useState({});
+    const [productQuantity, setProductQuantity] = useState({});
 
     // const handleCart = (productId) => {
 
@@ -49,7 +49,7 @@ function Home({handleCart}) {
 
     const handleIncreament = (id) =>{
 
-        setQuantity( (prev) => (
+        setProductQuantity( (prev) => (
             {...prev,
                 [id] : (prev[id] || 0) + 1,
             }
@@ -59,7 +59,7 @@ function Home({handleCart}) {
 
     const handleDecreament = (id) =>{
 
-        setQuantity( (prev) =>(
+        setProductQuantity( (prev) =>(
             {
                 ...prev,
                 [id] : prev[id] > 0 ? prev[id] - 1 : 0,
@@ -136,7 +136,7 @@ function Home({handleCart}) {
                                             <button onClick={() => handleIncreament(product.id)}
                                                 className='m-3 cursor-pointer'>+</button>
 
-                                            <p>{quantity[product.id] || 0}</p>
+                                            <p>{productQuantity[product.id] || 0}</p>
 
                                             <button onClick={() => handleDecreament(product.id)}
                                                 className='m-3 cursor-pointer'>-</button>

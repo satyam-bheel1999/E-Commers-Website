@@ -13,8 +13,6 @@ function App() {
 
     setCart([...cart, product]); // Add product to cart
 
-    console.log(cart);
-
 
 
   }
