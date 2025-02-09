@@ -16,23 +16,23 @@ function App() {
 
       let existingProduct = prevCart.find((item) => item.id == product.id);
 
-      if(existingProduct){
+      if (existingProduct) {
+        // If product exists, update its quantity
         return prevCart.map((item) =>
-          item.id === product.id ? { ...item, productQuantity: item.id + 1 } : item
+          item.id === product.id ? { ...item, quantity: (item.quantity || 1) + 1 } : item
         );
       } else {
-        // Add new product with quantity 1
-        return [...prevCart, { ...product, productQuantity: 1 }];
+        // If product is new, add it with quantity 1
+        return [...prevCart, { ...product, quantity: 1 }];
       }
-
-    })
+    });
 
     
     // setCart([...cart, product]); // Add product to cart
 
   }
 
-  const handleIncreament = (id) =>{
+  const handleIncreament = (quantity) =>{
 
     setProductQuantity( (prev) => (
         {...prev,

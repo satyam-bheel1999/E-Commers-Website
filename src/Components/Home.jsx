@@ -14,9 +14,12 @@ function Home({handleCart, handleIncreament, handleDecreament, productQuantity})
 
             try {
                 let productResponse = await axios.get('https://fakestoreapi.com/products');
-                setProducts(productResponse.data);
 
-                console.log(products);
+                let updateProducts = productResponse.data.map(product => ({
+                    ...product, quantity : 1
+                }));
+
+                setProducts(updateProducts);
 
             } catch (erro) {
                 console.log("error")
@@ -97,12 +100,12 @@ function Home({handleCart, handleIncreament, handleDecreament, productQuantity})
                                         cursor-pointer justify-center items-center ml-3'>
 
                                             
-                                            <button onClick={() => handleIncreament(product.id)}
+                                            <button onClick={() => handleIncreament(product.quantity)}
                                                 className='m-3 cursor-pointer'>+</button>
 
-                                            <p>{productQuantity[product.id] || 0}</p>
+                                            <p>{product.quantity}</p>
 
-                                            <button onClick={() => handleDecreament(product.id)}
+                                            <button onClick={() => handleDecreament(product.quantity)}
                                                 className='m-3 cursor-pointer'>-</button>
 
                                          </div>
