@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import App from '../App';
 
 function Home({handleCart, handleIncreament, handleDecreament, productQuantity}) {
 
@@ -40,6 +41,7 @@ function Home({handleCart, handleIncreament, handleDecreament, productQuantity})
 
     return (
         <div>
+
 
             <h1>Products</h1>
 
@@ -94,7 +96,7 @@ function Home({handleCart, handleIncreament, handleDecreament, productQuantity})
                                     <div className='flex flex-row'>
 
                                         <button className='h-11 w-24 border border-emerald-600 font-semibold
-                                         hover:bg-emerald-600 cursor-pointer' onClick={() => handleCart(product.id)}>Add to Cart</button>
+                                         hover:bg-emerald-600 cursor-pointer' onClick={() => handleCart(product)}>Add to Cart</button>
 
                                          <div className='flex flex-row h-11 w-20 border border-emerald-600 font-semibold
                                         cursor-pointer justify-center items-center ml-3'>

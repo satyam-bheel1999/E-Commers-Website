@@ -8,7 +8,7 @@ import MyCart from './Components/myCart'
 function App() {
 
   const [cart, setCart] = useState([]);
-  const [productQuantity, setProductQuantity] = useState({});
+  // const [productQuantity, setProductQuantity] = useState({});
 
   const handleCart = (product) =>{
 
