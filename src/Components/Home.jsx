@@ -1,35 +1,34 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import App from '../App';
 
-function Home({handleCart, handleIncreament, handleDecreament, productQuantity}) {
+function Home({handleCart, products}) {
 
     const [search, setSearch] = useState('')
 
-    const [products, setProducts] = useState([]);
+    const [productQuantity, setProductsQuantity] = useState([products]);
 
     const [filteredProducts, setFilteredProducts] = useState([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
+    // useEffect(() => {
+    //     const fetchData = async () => {
 
-            try {
-                let productResponse = await axios.get('https://fakestoreapi.com/products');
+    //         try {
+    //             let productResponse = await axios.get('https://fakestoreapi.com/products');
 
-                let updateProducts = productResponse.data.map(product => ({
-                    ...product, quantity : 1
-                }));
+    //             let updateProducts = productResponse.data.map(product => ({
+    //                 ...product, quantity : 1
+    //             }));
 
-                setProducts(updateProducts);
+    //             setProducts(updateProducts);
 
-            } catch (erro) {
-                console.log("error")
-            }
+    //         } catch (erro) {
+    //             console.log("error")
+    //         }
 
-        }
+    //     }
 
-        fetchData();
-    }, [])
+    //     fetchData();
+    // }, [])
 
 
     const searchedProduct = () => {
@@ -37,6 +36,24 @@ function Home({handleCart, handleIncreament, handleDecreament, productQuantity})
             product.title.toLowerCase().includes(search.toLowerCase())
         );
         setFilteredProducts(filtered);
+    };
+
+    const handleIncrement = (productId) => {
+        setProductsQuantity(prevProducts =>
+            prevProducts.map(product =>
+                product.id === productId ? { ...product, quantity: product.quantity + 1 } : product
+            )
+        );
+    };
+
+    const handleDecrement = (productId) => {
+        setProductsQuantity(prevProducts =>
+            prevProducts.map(product =>
+                product.id === productId && product.quantity > 1
+                    ? { ...product, quantity: product.quantity - 1 }
+                    : product
+            )
+        );
     };
 
     return (
@@ -102,12 +119,12 @@ function Home({handleCart, handleIncreament, handleDecreament, productQuantity})
                                         cursor-pointer justify-center items-center ml-3'>
 
                                             
-                                            <button onClick={() => handleIncreament(product.quantity)}
+                                            <button onClick={() => handleIncrement(product.id)}
                                                 className='m-3 cursor-pointer'>+</button>
 
                                             <p>{product.quantity}</p>
 
-                                            <button onClick={() => handleDecreament(product.quantity)}
+                                            <button onClick={() => handleDecrement(product.id)}
                                                 className='m-3 cursor-pointer'>-</button>
 
                                          </div>

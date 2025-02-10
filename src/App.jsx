@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios';
 import Header from './Components/Header'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Home from './Components/Home'
@@ -7,8 +8,33 @@ import MyCart from './Components/myCart'
 
 function App() {
 
+  const [products, setProducts] = useState([]);
+
   const [cart, setCart] = useState([]);
-  // const [productQuantity, setProductQuantity] = useState({});
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+
+        try {
+            let productResponse = await axios.get('https://fakestoreapi.com/products');
+
+            let updateProducts = productResponse.data.map(product => ({
+                ...product, quantity : 1
+            }));
+
+            setProducts(updateProducts);
+
+        } catch (erro) {
+            console.log("error")
+        }
+
+    }
+
+    fetchData();
+}, [])
+
+  
 
   const handleCart = (product) =>{
 
@@ -32,33 +58,14 @@ function App() {
 
   }
 
-  const handleIncreament = (quantity) =>{
 
-    setProductQuantity( (prev) => (
-        {...prev,
-            [id] : (prev[id] || 0) + 1,
-        }
-    ))
-
-}
-
-const handleDecreament = (id) =>{
-
-    setProductQuantity( (prev) =>(
-        {
-            ...prev,
-            [id] : prev[id] > 0 ? prev[id] - 1 : 0,
-        }
-    ))
-}
   return (
     <div>
       <Router>
         <Header />
         <Routes>
-          <Route path='/home'element={<Home handleCart={handleCart} handleIncreament={handleIncreament}
-           handleDecreament={handleDecreament} productQuantity={productQuantity}/>} />
-          <Route path='/cart'element={<MyCart cart={cart} productQuantity={productQuantity}/>} />
+          <Route path='/home'element={<Home handleCart={handleCart} products = {products}/>} />
+          <Route path='/cart'element={<MyCart cart={cart}/>} />
         </Routes>
 
 
