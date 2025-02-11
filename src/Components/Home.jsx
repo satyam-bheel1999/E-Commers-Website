@@ -1,34 +1,11 @@
-import axios from 'axios';
+
 import React, { useEffect, useState } from 'react'
 
-function Home({handleCart, products}) {
+function Home({handleCart, products, handleIncrement, handleDecrement}) {
 
     const [search, setSearch] = useState('')
 
-    const [productQuantity, setProductsQuantity] = useState([products]);
-
     const [filteredProducts, setFilteredProducts] = useState([]);
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-
-    //         try {
-    //             let productResponse = await axios.get('https://fakestoreapi.com/products');
-
-    //             let updateProducts = productResponse.data.map(product => ({
-    //                 ...product, quantity : 1
-    //             }));
-
-    //             setProducts(updateProducts);
-
-    //         } catch (erro) {
-    //             console.log("error")
-    //         }
-
-    //     }
-
-    //     fetchData();
-    // }, [])
 
 
     const searchedProduct = () => {
@@ -38,30 +15,11 @@ function Home({handleCart, products}) {
         setFilteredProducts(filtered);
     };
 
-    const handleIncrement = (productId) => {
-        setProductsQuantity(prevProducts =>
-            prevProducts.map(product =>
-                product.id === productId ? { ...product, quantity: product.quantity + 1 } : product
-            )
-        );
-    };
-
-    const handleDecrement = (productId) => {
-        setProductsQuantity(prevProducts =>
-            prevProducts.map(product =>
-                product.id === productId && product.quantity > 1
-                    ? { ...product, quantity: product.quantity - 1 }
-                    : product
-            )
-        );
-    };
 
     return (
         <div>
 
-
             <h1>Products</h1>
-
 
             {/*Search bar*/}
             <div className='w-screen h-20 flex justify-center items-center' >
@@ -87,7 +45,6 @@ function Home({handleCart, products}) {
 
                                         <h3>{product.title}</h3>
                                         <p>${product.price}</p>
-
 
                                     </div>
                                     <button className='h-11 w-24 border border-emerald-600 font-semibold
@@ -117,7 +74,6 @@ function Home({handleCart, products}) {
 
                                          <div className='flex flex-row h-11 w-20 border border-emerald-600 font-semibold
                                         cursor-pointer justify-center items-center ml-3'>
-
                                             
                                             <button onClick={() => handleIncrement(product.id)}
                                                 className='m-3 cursor-pointer'>+</button>
@@ -126,21 +82,15 @@ function Home({handleCart, products}) {
 
                                             <button onClick={() => handleDecrement(product.id)}
                                                 className='m-3 cursor-pointer'>-</button>
-
                                          </div>
-
 
                                     </div>
                                     
-
                                 </li>
                             ))
 
                         )
                     }
-
-
-
 
                 </ul>
 
@@ -149,10 +99,6 @@ function Home({handleCart, products}) {
             <div>
 
             </div>
-
-            
-
-
 
         </div>
     )

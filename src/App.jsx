@@ -10,7 +10,7 @@ function App() {
 
   const [products, setProducts] = useState([]);
 
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(products);
 
 
   useEffect(() => {
@@ -34,11 +34,9 @@ function App() {
     fetchData();
 }, [])
 
-  
-
   const handleCart = (product) =>{
 
-    setCart( (prevCart) =>{
+    setProducts( (prevCart) =>{
 
       let existingProduct = prevCart.find((item) => item.id == product.id);
 
@@ -53,10 +51,25 @@ function App() {
       }
     });
 
-    
-    // setCart([...cart, product]); // Add product to cart
-
   }
+
+  const handleIncrement = (productId) => {
+    setProducts(prevProducts =>
+        prevProducts.map(product =>
+            product.id === productId ? { ...product, quantity: product.quantity + 1 } : product
+        )
+    );
+};
+
+const handleDecrement = (productId) => {
+  setProducts(prevProducts =>
+      prevProducts.map(product =>
+          product.id === productId && product.quantity > 1
+              ? { ...product, quantity: product.quantity - 1 }
+              : product
+      )
+  );
+};
 
 
   return (
@@ -64,13 +77,11 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route path='/home'element={<Home handleCart={handleCart} products = {products}/>} />
+          <Route path='/home'element={<Home handleCart={handleCart} products = {products}
+           handleIncrement={handleIncrement} handleDecrement={handleDecrement}/>} />
           <Route path='/cart'element={<MyCart cart={cart}/>} />
         </Routes>
-
-
       </Router>
-
 
     </div>
   )
