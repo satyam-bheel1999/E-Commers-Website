@@ -10,7 +10,7 @@ function App() {
 
   const [products, setProducts] = useState([]);
 
-  const [cart, setCart] = useState(products);
+  const [cart, setCart] = useState([]);
 
 
   useEffect(() => {
@@ -36,7 +36,9 @@ function App() {
 
   const handleCart = (product) =>{
 
-    setProducts( (prevCart) =>{
+    setCart((prevCart) => {
+
+      if (!prevCart) return [];
 
       let existingProduct = prevCart.find((item) => item.id == product.id);
 
@@ -59,6 +61,12 @@ function App() {
             product.id === productId ? { ...product, quantity: product.quantity + 1 } : product
         )
     );
+
+    setCart(prevCart => {
+      prevCart.map((item) =>
+        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
+      );
+    })
 };
 
 const handleDecrement = (productId) => {
@@ -79,7 +87,7 @@ const handleDecrement = (productId) => {
         <Routes>
           <Route path='/home'element={<Home handleCart={handleCart} products = {products}
            handleIncrement={handleIncrement} handleDecrement={handleDecrement}/>} />
-          <Route path='/cart'element={<MyCart cart={cart}/>} />
+          <Route path='/cart'element={<MyCart cart={cart || []}/>} />
         </Routes>
       </Router>
 
