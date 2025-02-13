@@ -2,6 +2,8 @@ import React from "react";
 
 function MyCart({cart}) {
 
+  console.log(cart);
+
   return (
     <div>
       <ul className="grid grid-cols-5 gap-3">

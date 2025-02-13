@@ -20,7 +20,7 @@ function App() {
             let productResponse = await axios.get('https://fakestoreapi.com/products');
 
             let updateProducts = productResponse.data.map(product => ({
-                ...product, quantity : 1
+                ...product, quantity : 0
             }));
 
             setProducts(updateProducts);
@@ -34,50 +34,55 @@ function App() {
     fetchData();
 }, [])
 
-  const handleCart = (product) =>{
+const handleCart = (product) => {
+  setCart((prevCart) => {
+    let existingProduct = prevCart.find((item) => item.id === product.id);
 
-    setCart((prevCart) => {
+    if (existingProduct) {
+      return prevCart.map((item) =>
+        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+      );
+    } else {
+      return [...prevCart, { ...product, quantity: 1 }];
+    }
+  });
+};
 
-      if (!prevCart) return [];
-
-      let existingProduct = prevCart.find((item) => item.id == product.id);
-
-      if (existingProduct) {
-        // If product exists, update its quantity
-        return prevCart.map((item) =>
-          item.id === product.id ? { ...item, quantity: (item.quantity || 1) + 1 } : item
-        );
-      } else {
-        // If product is new, add it with quantity 1
-        return [...prevCart, { ...product, quantity: 1 }];
-      }
-    });
-
-  }
 
   const handleIncrement = (productId) => {
     setProducts(prevProducts =>
-        prevProducts.map(product =>
-            product.id === productId ? { ...product, quantity: product.quantity + 1 } : product
-        )
+      prevProducts.map(product =>
+        product.id === productId ? { ...product, quantity: product.quantity + 1 } : product
+      )
+    );
+  
+    setCart(prevCart =>
+      prevCart.map(item =>
+        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
+      )
     );
 
-    setCart(prevCart => {
-      prevCart.map((item) =>
-        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
-      );
-    })
-};
+  };
+  
 
-const handleDecrement = (productId) => {
-  setProducts(prevProducts =>
+  const handleDecrement = (productId) => {
+    setProducts(prevProducts =>
       prevProducts.map(product =>
-          product.id === productId && product.quantity > 1
-              ? { ...product, quantity: product.quantity - 1 }
-              : product
+        product.id === productId && product.quantity > 1
+          ? { ...product, quantity: product.quantity - 1 }
+          : product
       )
-  );
-};
+    );
+  
+    setCart(prevCart =>
+      prevCart.map(item =>
+        item.id === productId && item.quantity > 1
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      )
+    );
+  };
+  
 
 
   return (
@@ -87,7 +92,7 @@ const handleDecrement = (productId) => {
         <Routes>
           <Route path='/home'element={<Home handleCart={handleCart} products = {products}
            handleIncrement={handleIncrement} handleDecrement={handleDecrement}/>} />
-          <Route path='/cart'element={<MyCart cart={cart || []}/>} />
+          <Route path='/cart'element={<MyCart cart={cart}/>} />
         </Routes>
       </Router>
 

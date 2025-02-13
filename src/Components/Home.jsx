@@ -27,7 +27,12 @@ function Home({handleCart, products, handleIncrement, handleDecrement}) {
 
                 <button onClick={searchedProduct} className='border flex flex-row p-2 cursor-pointer rounded-2xl hover:bg-emerald-600'>Search <img className='h-6 ml-3' src='src\Components\Images\magnifying-glass-solid.svg' /></button>
 
-                <button className='border flex flex-row p-2 cursor-pointer absolute right-3'>Filter <img className='h-6 ml-3' src='src\Components\Images\filter-solid.svg' /> </button>
+                <button className='border flex flex-row p-2 cursor-pointer absolute right-3'><img className='h-6 ml-3' src='src\Components\Images\filter-solid.svg' />
+                <select>
+                    <option value="">All</option>
+                    <option value="">Mens Wear</option>
+                    <option value="">Womens Wear</option>
+                    </select> </button>
 
             </div>
 
