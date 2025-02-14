@@ -12,6 +12,9 @@ function App() {
 
   const [cart, setCart] = useState([]);
 
+  const [categories, setCategories] = useState([]);
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,6 +27,12 @@ function App() {
             }));
 
             setProducts(updateProducts);
+
+            // Fetch categories
+
+            let categoriesResponse = await axios.get('https://fakestoreapi.com/products/categories');
+
+            setCategories(categoriesResponse.data);
 
         } catch (erro) {
             console.log("error")
@@ -91,7 +100,7 @@ const handleCart = (product) => {
         <Header />
         <Routes>
           <Route path='/home'element={<Home handleCart={handleCart} products = {products}
-           handleIncrement={handleIncrement} handleDecrement={handleDecrement}/>} />
+           handleIncrement={handleIncrement} handleDecrement={handleDecrement} categories={categories}/>} />
           <Route path='/cart'element={<MyCart cart={cart}/>} />
         </Routes>
       </Router>
