@@ -3,7 +3,7 @@ import axios from "axios";
 import Header from "./Components/Header";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./Components/Home";
-import MyCart from "./Components/myCart";
+import MyCart from "./Components/MyCart";
 
 function App() {
   const [products, setProducts] = useState([]);
